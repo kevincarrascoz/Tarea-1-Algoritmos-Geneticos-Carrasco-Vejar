@@ -3,12 +3,13 @@ import java.util.Random;
 public class reinas{
     public static void main(String[] args) {
         int tamanoTablero = 4;
-        int poblacion = 6;
+        int poblacion = 3;
 
         Random r = new Random();
 
         int[][] tableros = new int[poblacion][tamanoTablero];
 
+        //inicializacion tableros
         for(int i=0; i<poblacion; i++){
         
             for(int j=0; j<tamanoTablero; j++){
@@ -18,7 +19,7 @@ public class reinas{
   
         }
 
-
+        //muestra tableros inicializados
         for (int x=0; x < tableros.length; x++) {
             for (int y=0; y < tableros[x].length; y++) {
               System.out.print (tableros[x][y]);
@@ -26,10 +27,10 @@ public class reinas{
             }
             System.out.println("\n");
           }
+          System.out.println("\n\n\n");
 
 
-        System.out.println("\n\n\n");  
-
+        //desordena los tableros
         for(int i=0; i<poblacion; i++){
         
             for(int j=0; j<tamanoTablero; j++){
@@ -42,7 +43,7 @@ public class reinas{
   
         }
 
-        
+        //muestra tableros desordenados
         for (int x=0; x < tableros.length; x++) {
             for (int y=0; y < tableros[x].length; y++) {
               System.out.print (tableros[x][y]);
@@ -50,9 +51,48 @@ public class reinas{
             }
             System.out.println("\n");
           }
+           
+        
 
+
+        //fitness  
+          for(int i=0; i<poblacion; i++){
+            int fitness = 0;
+            int[] auxdiagonal = new int[tamanoTablero];
+            int[] auxinversa = new int[tamanoTablero];
         
-        
+            for(int j=0; j<tamanoTablero; j++){
+              auxdiagonal[j] = ((j+1) - tableros[i][j]);
+              auxinversa[j] = Math.abs((j+1) +tableros[i][j]);  
+              System.out.print(auxdiagonal[j]);
+              //System.out.print(auxinversa[j]);
+
+            }
+            System.out.println();
+
+            for(int z=0; z<tamanoTablero; z++){
+                for(int x=0; x<tamanoTablero; x++){
+                    
+                    if(z!=x){
+                        if(auxdiagonal[z]==auxdiagonal[x]){
+
+                            fitness=fitness+1;
+                            //System.out.println("aca sume 1 en diagonal:"+auxdiagonal[z]+" "+auxdiagonal[x]);
+                        }    
+                        if(auxinversa[z]==auxinversa[x]){
+
+                            fitness=fitness+1;
+                            //System.out.println("aca sume 1 en inversa:"+auxdiagonal[z]+" "+auxdiagonal[x]);
+                        } 
+                    }
+
+                      
+                }
+                
+            }
+            System.out.println("fitnes: "+fitness);
+  
+        }
        
         
         
