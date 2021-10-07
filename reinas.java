@@ -3,7 +3,7 @@ import java.util.Random;
 public class reinas{
     public static void main(String[] args) {
         int tamanoTablero = 4;
-        int poblacion = 3;
+        int poblacion = 4;
 
         Random r = new Random();
 
@@ -64,11 +64,11 @@ public class reinas{
             for(int j=0; j<tamanoTablero; j++){
               auxdiagonal[j] = ((j+1) - tableros[i][j]);
               auxinversa[j] = Math.abs((j+1) +tableros[i][j]);  
-              System.out.print(auxdiagonal[j]);
-              //System.out.print(auxinversa[j]);
+              //System.out.print(auxdiagonal[j]+"\t");
+              //System.out.println(auxinversa[j]);
 
             }
-            System.out.println();
+            
 
             for(int z=0; z<tamanoTablero; z++){
                 for(int x=0; x<tamanoTablero; x++){
@@ -90,7 +90,7 @@ public class reinas{
                 }
                 
             }
-            System.out.println("fitnes: "+fitness);
+            System.out.println("fitness tablero " +(i+1)+": "+fitness/2 +"\n");
   
         }
        
