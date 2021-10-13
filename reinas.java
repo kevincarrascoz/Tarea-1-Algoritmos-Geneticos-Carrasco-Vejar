@@ -2,60 +2,45 @@ import java.util.*;
 import java.util.Random;
 public class reinas{
     public static void main(String[] args) {
-        int tamanoTablero = 4;
-        int poblacion = 4;
 
-        Random r = new Random();
+        if (args.length != 2) {
+			System.out.println("Ingresar 2 argumentos, el tamano del tablero y el tamano de la poblacion.");
+			System.exit(-1);
+		}
 
+
+        int tamanoTablero = Integer.parseInt(args[0]);
+        int poblacion = Integer.parseInt(args[1]);
         int[][] tableros = new int[poblacion][tamanoTablero];
+        int[] arrayfitness = new int[poblacion];
+        Random r = new Random();
 
         //inicializacion tableros
         for(int i=0; i<poblacion; i++){
-        
             for(int j=0; j<tamanoTablero; j++){
-            
                 tableros[i][j]=j+1;
             }
-  
         }
 
         //muestra tableros inicializados
-        for (int x=0; x < tableros.length; x++) {
-            for (int y=0; y < tableros[x].length; y++) {
-              System.out.print (tableros[x][y]);
-              if (y!=tableros[x].length-1) System.out.print("\t");
-            }
-            System.out.println("\n");
-          }
-          System.out.println("\n\n\n");
+        imprimirArreglo(tableros,"Tableros iniciales");
 
 
         //desordena los tableros
         for(int i=0; i<poblacion; i++){
-        
             for(int j=0; j<tamanoTablero; j++){
-            
                 int posAleatoria = r.nextInt(tamanoTablero);
                 int temp = tableros[i][j];
                 tableros[i][j] = tableros[i][posAleatoria];
                 tableros[i][posAleatoria] = temp;
             }
-  
         }
 
         //muestra tableros desordenados
-        for (int x=0; x < tableros.length; x++) {
-            for (int y=0; y < tableros[x].length; y++) {
-              System.out.print (tableros[x][y]);
-              if (y!=tableros[x].length-1) System.out.print("\t");
-            }
-            System.out.println("\n");
-          }
+        imprimirArreglo(tableros, "Tableros desordenados");
            
         
-
-
-        //fitness  
+        //calculo del fitness por tablero  
           for(int i=0; i<poblacion; i++){
             int fitness = 0;
             int[] auxdiagonal = new int[tamanoTablero];
@@ -64,39 +49,63 @@ public class reinas{
             for(int j=0; j<tamanoTablero; j++){
               auxdiagonal[j] = ((j+1) - tableros[i][j]);
               auxinversa[j] = Math.abs((j+1) +tableros[i][j]);  
-              //System.out.print(auxdiagonal[j]+"\t");
-              //System.out.println(auxinversa[j]);
-
             }
             
 
             for(int z=0; z<tamanoTablero; z++){
                 for(int x=0; x<tamanoTablero; x++){
-                    
                     if(z!=x){
                         if(auxdiagonal[z]==auxdiagonal[x]){
-
                             fitness=fitness+1;
-                            //System.out.println("aca sume 1 en diagonal:"+auxdiagonal[z]+" "+auxdiagonal[x]);
                         }    
                         if(auxinversa[z]==auxinversa[x]){
-
                             fitness=fitness+1;
-                            //System.out.println("aca sume 1 en inversa:"+auxdiagonal[z]+" "+auxdiagonal[x]);
                         } 
                     }
-
-                      
                 }
                 
             }
-            System.out.println("fitness tablero " +(i+1)+": "+fitness/2 +"\n");
-  
+            //guardar el fitness de cada tablero en un arreglo
+            arrayfitness[i]=fitness/2;
+            //System.out.println("fitness tablero " +(i+1)+": "+fitness/2 +"\n");
         }
-       
-        
-        
-        
-
+        imprimirArreglo(arrayfitness, "fitness");
     }
+
+    
+
+
+
+
+
+
+
+
+    /* 
+    Funcion para imprimir matriz por pantalla
+    */
+    public static void imprimirArreglo( int[][] matriz,String nombre){
+        System.out.println(nombre);
+        for (int x=0; x < matriz.length; x++) {
+            for (int y=0; y < matriz[x].length; y++) {
+              System.out.print (matriz[x][y]);
+              if (y!=matriz[x].length-1) System.out.print("\t");
+            }
+            System.out.println("\n");
+          }    
+    }
+    
+    /* 
+    Funcion para imprimir array por pantalla
+    */
+    public static void imprimirArreglo( int[] matriz,String nombre){
+        System.out.println(nombre);
+        for (int x=0; x < matriz.length; x++) {
+            System.out.print(matriz[x] + "\t");
+        }
+            
+    }   
+
 }
+
+
