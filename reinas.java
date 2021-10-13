@@ -2,9 +2,17 @@ import java.util.*;
 import java.util.Random;
 public class reinas{
     public static void main(String[] args) {
-        int tamanoTablero = 4;
-        int poblacion = 4;
+
+        if (args.length != 2) {
+			System.out.println("Ingresar 2 argumentos, el tamano del tablero y el tamano de la poblacion.");
+			System.exit(-1);
+		}
+
+
+        int tamanoTablero = Integer.parseInt(args[0]);
+        int poblacion = Integer.parseInt(args[1]);
         int[][] tableros = new int[poblacion][tamanoTablero];
+        int[] arrayfitness = new int[poblacion];
         Random r = new Random();
 
         //inicializacion tableros
@@ -15,7 +23,7 @@ public class reinas{
         }
 
         //muestra tableros inicializados
-        imprimirMatriz(tableros);
+        imprimirArreglo(tableros,"Tableros iniciales");
 
 
         //desordena los tableros
@@ -26,16 +34,13 @@ public class reinas{
                 tableros[i][j] = tableros[i][posAleatoria];
                 tableros[i][posAleatoria] = temp;
             }
-  
         }
 
         //muestra tableros desordenados
-        imprimirMatriz(tableros);
+        imprimirArreglo(tableros, "Tableros desordenados");
            
         
-
-
-        //fitness  
+        //calculo del fitness por tablero  
           for(int i=0; i<poblacion; i++){
             int fitness = 0;
             int[] auxdiagonal = new int[tamanoTablero];
@@ -60,14 +65,27 @@ public class reinas{
                 }
                 
             }
-            System.out.println("fitness tablero " +(i+1)+": "+fitness/2 +"\n");
+            //guardar el fitness de cada tablero en un arreglo
+            arrayfitness[i]=fitness/2;
+            //System.out.println("fitness tablero " +(i+1)+": "+fitness/2 +"\n");
         }
+        imprimirArreglo(arrayfitness, "fitness");
     }
 
+    
+
+
+
+
+
+
+
+
     /* 
-    Funcion para imprimir las matrices por pantalla
+    Funcion para imprimir matriz por pantalla
     */
-    public static void imprimirMatriz( int[][] matriz){
+    public static void imprimirArreglo( int[][] matriz,String nombre){
+        System.out.println(nombre);
         for (int x=0; x < matriz.length; x++) {
             for (int y=0; y < matriz[x].length; y++) {
               System.out.print (matriz[x][y]);
@@ -76,6 +94,18 @@ public class reinas{
             System.out.println("\n");
           }    
     }
-
+    
+    /* 
+    Funcion para imprimir array por pantalla
+    */
+    public static void imprimirArreglo( int[] matriz,String nombre){
+        System.out.println(nombre);
+        for (int x=0; x < matriz.length; x++) {
+            System.out.print(matriz[x] + "\t");
+        }
+            
+    }   
 
 }
+
+
