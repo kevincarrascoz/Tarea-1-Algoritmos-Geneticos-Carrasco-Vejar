@@ -4,7 +4,7 @@ public class reinas{
     public static void main(String[] args) {
 
         if (args.length != 2) {
-			System.out.println("Ingresar 2 argumentos, el tamano del tablero y el tamano de la poblacion.");
+			System.out.println("Ingresar 2 argumentos, el tamano del tablero y el tamano de la poblacion respectivamente.");
 			System.exit(-1);
 		}
 
@@ -94,7 +94,7 @@ public class reinas{
             System.out.println("\n");
           }    
     }
-    
+
     /* 
     Funcion para imprimir array por pantalla
     */
@@ -103,7 +103,7 @@ public class reinas{
         for (int x=0; x < matriz.length; x++) {
             System.out.print(matriz[x] + "\t");
         }
-            
+        System.out.println("");    
     }   
 
 }
