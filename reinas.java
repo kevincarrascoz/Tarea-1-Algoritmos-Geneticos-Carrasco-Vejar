@@ -1,10 +1,11 @@
+import java.security.Policy;
 import java.util.*;
 import java.util.Random;
 public class reinas{
     public static void main(String[] args) {
 
-        if (args.length != 2) {
-			System.out.println("Ingresar 2 argumentos, el tamano del tablero y el tamano de la poblacion respectivamente.");
+        if (args.length != 3) {
+			System.out.println("Ingresar 3 argumentos, el tamano del tablero,el tamano de la poblacion y la semilla respectivamente.");
 			System.exit(-1);
 		}
 
@@ -13,7 +14,26 @@ public class reinas{
         int poblacion = Integer.parseInt(args[1]);
         int[][] tableros = new int[poblacion][tamanoTablero];
         int[] arrayfitness = new int[poblacion];
+        int[] arrayfitnessInv= new int[poblacion];
         Random r = new Random();
+        Random aleatorio = new Random();
+        Integer semilla = Integer.parseInt(args[2]);
+        
+        //numero aleatorio entre 0 y n
+        aleatorio.setSeed(semilla);
+        for(int i=0; i<10; i++){
+            int randomNumber = aleatorio.nextInt(tamanoTablero+1);
+            System.out.println("Random "+(i+1)+": "+randomNumber);
+        }
+
+        
+
+        //calculo del fitness maximo (cantidad maxima de colisiones)
+        int fitnessmax=0;
+        for(int j=(tamanoTablero-1); j>0; j--){
+            fitnessmax=fitnessmax+j;
+        }
+        System.out.println("el fitness max es: "+fitnessmax);
 
         //inicializacion tableros
         for(int i=0; i<poblacion; i++){
@@ -69,21 +89,69 @@ public class reinas{
             arrayfitness[i]=fitness/2;
             //System.out.println("fitness tablero " +(i+1)+": "+fitness/2 +"\n");
         }
-        //imprimirArreglo(arrayfitness, "fitness");
-        int max=0;
-        for(int i=0; i<arrayfitness.length; i++){
-            if(arrayfitness[i]>max){
-                max=arrayfitness[i];
+        imprimirArreglo(arrayfitness, "fitness");
+
+
+        //inversion del fitness para poder obtener la proporcion de cada tablero
+        for(int i=0; i<arrayfitnessInv.length; i++){
+            arrayfitnessInv[i]=fitnessmax-arrayfitness[i];
+        }
+        //calculo de la suma de los fitness
+        int sumaProporcion=0;
+        for(int i=0; i<arrayfitnessInv.length; i++){
+            sumaProporcion=sumaProporcion+arrayfitnessInv[i];
+        }
+        System.out.println("Suma: "+sumaProporcion);
+        
+        //calculo proporcion de cada fitness
+        double[] arrayProporciones = new double[poblacion];
+        for(int i=0; i<arrayfitnessInv.length; i++){
+            arrayProporciones[i]=Double.valueOf(arrayfitnessInv[i])/Double.valueOf(sumaProporcion);
+        }
+        imprimirArreglo(arrayProporciones, "proporciones");
+
+
+        //calculo valor para ruleta
+        double[] valorRuleta = new double[poblacion];
+        for(int i=0; i<arrayfitnessInv.length; i++){
+            if(i==0){
+                valorRuleta[i]=arrayProporciones[i];    
+            }else{
+                valorRuleta[i]=valorRuleta[i-1]+arrayProporciones[i];
             }
         }
-        System.out.println("el peor fitness es: "+max);
-        int auxunu=0;
-        for(int j=(tamanoTablero-1); j>0; j--){
-            auxunu=auxunu+j;
+        imprimirArreglo(valorRuleta, "ruleta");
+
+        //asignar la ruleta a un resultado
+        int seleccion1 = 0;
+        int seleccion2 = 0;
+        //numero aleatorio entre 0 y 1
+        double numeroEntre0y1a = (double)(Math.random());
+        System.out.println("Numero entre 0 y 1: "+numeroEntre0y1a);
+
+        for(int i = 0; i<valorRuleta.length; i++){
+            if(numeroEntre0y1a<=valorRuleta[i]){
+                seleccion1=i;
+                break;
+            }
         }
-        System.out.println("el fitness max es: "+auxunu);
-        }
-    
+
+        //numero aleatorio entre 0 y 1
+        do{
+            double numeroEntre0y1b = (double)(Math.random());
+            System.out.println("Numero entre 0 y 1: "+numeroEntre0y1b);
+            for(int i = 0; i<valorRuleta.length; i++){
+                if(numeroEntre0y1b<=valorRuleta[i]){
+                    seleccion2=i;
+                    break;
+                }
+            }
+        }while(seleccion1==seleccion2);
+        System.out.println("Seleccion 1: "+seleccion1+" Seleccion 2: "+seleccion2);
+
+
+        
+    }
 
     
 
@@ -112,6 +180,17 @@ public class reinas{
     Funcion para imprimir array por pantalla
     */
     public static void imprimirArreglo( int[] matriz,String nombre){
+        System.out.println(nombre);
+        for (int x=0; x < matriz.length; x++) {
+            System.out.print(matriz[x] + "\t");
+        }
+        System.out.println("");    
+    }   
+
+    /* 
+    Funcion para imprimir array por pantalla
+    */
+    public static void imprimirArreglo( double[] matriz,String nombre){
         System.out.println(nombre);
         for (int x=0; x < matriz.length; x++) {
             System.out.print(matriz[x] + "\t");
