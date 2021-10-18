@@ -25,6 +25,7 @@ public class reinas{
             int randomNumber = aleatorio.nextInt(tamanoTablero+1);
             System.out.println("Random "+(i+1)+": "+randomNumber);
         }
+        
 
         
 
@@ -89,7 +90,7 @@ public class reinas{
             arrayfitness[i]=fitness/2;
             //System.out.println("fitness tablero " +(i+1)+": "+fitness/2 +"\n");
         }
-        imprimirArreglo(arrayfitness, "fitness");
+        //imprimirArreglo(arrayfitness, "fitness");
 
 
         //inversion del fitness para poder obtener la proporcion de cada tablero
@@ -108,7 +109,7 @@ public class reinas{
         for(int i=0; i<arrayfitnessInv.length; i++){
             arrayProporciones[i]=Double.valueOf(arrayfitnessInv[i])/Double.valueOf(sumaProporcion);
         }
-        imprimirArreglo(arrayProporciones, "proporciones");
+        //imprimirArreglo(arrayProporciones, "proporciones");
 
 
         //calculo valor para ruleta
@@ -120,13 +121,13 @@ public class reinas{
                 valorRuleta[i]=valorRuleta[i-1]+arrayProporciones[i];
             }
         }
-        imprimirArreglo(valorRuleta, "ruleta");
+        //imprimirArreglo(valorRuleta, "ruleta");
 
         //asignar la ruleta a un resultado
         int seleccion1 = 0;
         int seleccion2 = 0;
         //numero aleatorio entre 0 y 1
-        double numeroEntre0y1a = (double)(Math.random());
+        double numeroEntre0y1a = aleatorio.nextDouble();
         System.out.println("Numero entre 0 y 1: "+numeroEntre0y1a);
 
         for(int i = 0; i<valorRuleta.length; i++){
@@ -138,7 +139,7 @@ public class reinas{
 
         //numero aleatorio entre 0 y 1
         do{
-            double numeroEntre0y1b = (double)(Math.random());
+            double numeroEntre0y1b = aleatorio.nextDouble();
             System.out.println("Numero entre 0 y 1: "+numeroEntre0y1b);
             for(int i = 0; i<valorRuleta.length; i++){
                 if(numeroEntre0y1b<=valorRuleta[i]){
