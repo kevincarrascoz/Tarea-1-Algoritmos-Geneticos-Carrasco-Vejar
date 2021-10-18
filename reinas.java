@@ -23,7 +23,7 @@ public class reinas{
         }
 
         //muestra tableros inicializados
-        imprimirArreglo(tableros,"Tableros iniciales");
+        //imprimirArreglo(tableros,"Tableros iniciales");
 
 
         //desordena los tableros
@@ -37,7 +37,7 @@ public class reinas{
         }
 
         //muestra tableros desordenados
-        imprimirArreglo(tableros, "Tableros desordenados");
+        //imprimirArreglo(tableros, "Tableros desordenados");
            
         
         //calculo del fitness por tablero  
@@ -69,8 +69,21 @@ public class reinas{
             arrayfitness[i]=fitness/2;
             //System.out.println("fitness tablero " +(i+1)+": "+fitness/2 +"\n");
         }
-        imprimirArreglo(arrayfitness, "fitness");
-    }
+        //imprimirArreglo(arrayfitness, "fitness");
+        int max=0;
+        for(int i=0; i<arrayfitness.length; i++){
+            if(arrayfitness[i]>max){
+                max=arrayfitness[i];
+            }
+        }
+        System.out.println("el peor fitness es: "+max);
+        int auxunu=0;
+        for(int j=(tamanoTablero-1); j>0; j--){
+            auxunu=auxunu+j;
+        }
+        System.out.println("el fitness max es: "+auxunu);
+        }
+    
 
     
 
