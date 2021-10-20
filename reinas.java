@@ -23,7 +23,7 @@ public class reinas{
         aleatorio.setSeed(semilla);
         for(int i=0; i<10; i++){
             int randomNumber = aleatorio.nextInt(tamanoTablero+1);
-            System.out.println("Random "+(i+1)+": "+randomNumber);
+            //System.out.println("Random "+(i+1)+": "+randomNumber);
         }
         
 
@@ -90,13 +90,17 @@ public class reinas{
             arrayfitness[i]=fitness/2;
             //System.out.println("fitness tablero " +(i+1)+": "+fitness/2 +"\n");
         }
-        //imprimirArreglo(arrayfitness, "fitness");
+        imprimirArreglo(arrayfitness, "fitness normal");
 
 
         //inversion del fitness para poder obtener la proporcion de cada tablero
         for(int i=0; i<arrayfitnessInv.length; i++){
             arrayfitnessInv[i]=fitnessmax-arrayfitness[i];
+            if(arrayfitnessInv[i]==0){
+                arrayfitnessInv[i]=1;
+            }
         }
+        imprimirArreglo(arrayfitnessInv, "fitness invertido");
         //calculo de la suma de los fitness
         int sumaProporcion=0;
         for(int i=0; i<arrayfitnessInv.length; i++){
@@ -109,7 +113,7 @@ public class reinas{
         for(int i=0; i<arrayfitnessInv.length; i++){
             arrayProporciones[i]=Double.valueOf(arrayfitnessInv[i])/Double.valueOf(sumaProporcion);
         }
-        //imprimirArreglo(arrayProporciones, "proporciones");
+        imprimirArreglo(arrayProporciones, "proporciones");
 
 
         //calculo valor para ruleta
@@ -121,7 +125,7 @@ public class reinas{
                 valorRuleta[i]=valorRuleta[i-1]+arrayProporciones[i];
             }
         }
-        //imprimirArreglo(valorRuleta, "ruleta");
+        imprimirArreglo(valorRuleta, "ruleta");
 
         //asignar la ruleta a un resultado
         int seleccion1 = 0;
