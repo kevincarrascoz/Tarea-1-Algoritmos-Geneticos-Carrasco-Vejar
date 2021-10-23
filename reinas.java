@@ -4,8 +4,8 @@ import java.util.Random;
 public class reinas{
     public static void main(String[] args) {
 
-        if (args.length != 3) {
-			System.out.println("Ingresar 3 argumentos, el tamano del tablero,el tamano de la poblacion y la semilla respectivamente.");
+        if (args.length != 6) {
+			System.out.println("Ingresar 6 argumentos, el tamano del tablero,el tamano de la poblacion, la semilla, la prob de cruza,la prob de mutacion y la cantidad de iteraciones respectivamente");
 			System.exit(-1);
 		}
 
@@ -18,13 +18,17 @@ public class reinas{
         Random r = new Random();
         Random aleatorio = new Random();
         Integer semilla = Integer.parseInt(args[2]);
+        double probabilidadCruza = Double.parseDouble(args[3]);
+        double probabilidadMutacion = Double.parseDouble(args[4]);
+        Integer iteraciones = Integer.parseInt(args[5]);
         
-        //numero aleatorio entre 0 y n
+        //set semilla
         aleatorio.setSeed(semilla);
-        for(int i=0; i<10; i++){
+        /*for(int i=0; i<tamanoTablero; i++){
             int randomNumber = aleatorio.nextInt(tamanoTablero+1);
             //System.out.println("Random "+(i+1)+": "+randomNumber);
-        }
+        }*/
+        
         
 
         
@@ -58,7 +62,7 @@ public class reinas{
         }
 
         //muestra tableros desordenados
-        //imprimirArreglo(tableros, "Tableros desordenados");
+        imprimirArreglo(tableros, "Tableros desordenados");
            
         
         //calculo del fitness por tablero  
@@ -90,7 +94,7 @@ public class reinas{
             arrayfitness[i]=fitness/2;
             //System.out.println("fitness tablero " +(i+1)+": "+fitness/2 +"\n");
         }
-        imprimirArreglo(arrayfitness, "fitness normal");
+        //imprimirArreglo(arrayfitness, "fitness normal");
 
 
         //inversion del fitness para poder obtener la proporcion de cada tablero
@@ -106,14 +110,14 @@ public class reinas{
         for(int i=0; i<arrayfitnessInv.length; i++){
             sumaProporcion=sumaProporcion+arrayfitnessInv[i];
         }
-        System.out.println("Suma: "+sumaProporcion);
+        //System.out.println("Suma: "+sumaProporcion);
         
         //calculo proporcion de cada fitness
         double[] arrayProporciones = new double[poblacion];
         for(int i=0; i<arrayfitnessInv.length; i++){
             arrayProporciones[i]=Double.valueOf(arrayfitnessInv[i])/Double.valueOf(sumaProporcion);
         }
-        imprimirArreglo(arrayProporciones, "proporciones");
+        //imprimirArreglo(arrayProporciones, "proporciones");
 
 
         //calculo valor para ruleta
@@ -125,14 +129,16 @@ public class reinas{
                 valorRuleta[i]=valorRuleta[i-1]+arrayProporciones[i];
             }
         }
-        imprimirArreglo(valorRuleta, "ruleta");
+        //imprimirArreglo(valorRuleta, "ruleta");
+
+        
 
         //asignar la ruleta a un resultado
         int seleccion1 = 0;
         int seleccion2 = 0;
         //numero aleatorio entre 0 y 1
         double numeroEntre0y1a = aleatorio.nextDouble();
-        System.out.println("Numero entre 0 y 1: "+numeroEntre0y1a);
+        //System.out.println("Numero entre 0 y 1: "+numeroEntre0y1a);
 
         for(int i = 0; i<valorRuleta.length; i++){
             if(numeroEntre0y1a<=valorRuleta[i]){
@@ -141,10 +147,13 @@ public class reinas{
             }
         }
 
+        int tableroHijos[][] = new int[poblacion][tamanoTablero];
+        int auxiliarPosTableroHijos = 0;
+
         //numero aleatorio entre 0 y 1
         do{
             double numeroEntre0y1b = aleatorio.nextDouble();
-            System.out.println("Numero entre 0 y 1: "+numeroEntre0y1b);
+            //System.out.println("Numero entre 0 y 1: "+numeroEntre0y1b);
             for(int i = 0; i<valorRuleta.length; i++){
                 if(numeroEntre0y1b<=valorRuleta[i]){
                     seleccion2=i;
@@ -152,7 +161,50 @@ public class reinas{
                 }
             }
         }while(seleccion1==seleccion2);
-        System.out.println("Seleccion 1: "+seleccion1+" Seleccion 2: "+seleccion2);
+        System.out.println("Seleccion 1: "+seleccion1+"\nSeleccion 2: "+seleccion2);
+
+        //cruza
+        //numero aleatorio entre 0 y n
+        
+
+        
+        double aleatorioCruza = aleatorio.nextDouble();
+        System.out.println("aleatorio cruza: "+aleatorioCruza+"prob cruza: "+probabilidadCruza);
+        if(aleatorioCruza<=probabilidadCruza){
+            int randomNumber = aleatorio.nextInt(tamanoTablero+1);
+            System.out.println("numero aleatorio: "+randomNumber);
+
+            //for(int i = 0; i<(poblacion/2); i++){
+                int auxiliar[] = new int[tamanoTablero];
+                int auxiliar2[] = new int[tamanoTablero];
+                for(int j=0; j<randomNumber; j++){
+                    auxiliar[j]=tableros[seleccion1][j];
+                    tableroHijos[auxiliarPosTableroHijos][j]=tableros[seleccion1][j];
+                }
+                for(int k=randomNumber; k<tamanoTablero; k++){
+                    auxiliar[k]=tableros[seleccion2][k];
+                    tableroHijos[auxiliarPosTableroHijos][k]=tableros[seleccion2][k];
+                }
+                auxiliarPosTableroHijos=auxiliarPosTableroHijos+1;
+
+                imprimirArreglo(auxiliar, "hijo 1");
+                //imprimirArreglo(tableroHijos, "tablero de hijos");
+
+                for(int j=randomNumber; j<tamanoTablero; j++){
+                    auxiliar2[j]=tableros[seleccion1][j];
+                    tableroHijos[auxiliarPosTableroHijos][j]=tableros[seleccion1][j];
+                }
+                for(int k=0; k<randomNumber; k++){
+                    auxiliar2[k]=tableros[seleccion2][k];
+                    tableroHijos[auxiliarPosTableroHijos][k]=tableros[seleccion2][k];
+                }
+                auxiliarPosTableroHijos=auxiliarPosTableroHijos+1;
+                imprimirArreglo(auxiliar2, "hijo 2");
+                imprimirArreglo(tableroHijos, "tablero de hijos");
+        }
+        //}
+            
+        
 
 
         
