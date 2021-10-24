@@ -191,29 +191,60 @@ public class reinas{
                     //System.out.println("numero aleatorio: "+randomNumber);
 
                     
-                        int auxiliar[] = new int[tamanoTablero];
-                        int auxiliar2[] = new int[tamanoTablero];
                         for(int j=0; j<randomNumber; j++){
-                            auxiliar[j]=tableros[seleccion1][j];
                             tableroHijos[auxiliarPosTableroHijos][j]=tableros[seleccion1][j];
                         }
                         for(int k=randomNumber; k<tamanoTablero; k++){
-                            auxiliar[k]=tableros[seleccion2][k];
                             tableroHijos[auxiliarPosTableroHijos][k]=tableros[seleccion2][k];
                         }
+
+                        double aletorioMutacion = aleatorio.nextDouble();
+                        int posicionAletoria2;
+                        int posicionAletoria1;
+                        int auxPos1;
+                        int auxPos2;
+                        if(aletorioMutacion<=probabilidadMutacion){
+                            posicionAletoria1 = aleatorio.nextInt(tamanoTablero);    
+                            do{
+                                posicionAletoria2=aleatorio.nextInt(tamanoTablero);  
+                            }while(posicionAletoria1==posicionAletoria2);
+                            System.out.println("Hubo una mutacion entre la posicion: "+posicionAletoria1+" y: "+posicionAletoria2);
+                            auxPos1=tableroHijos[auxiliarPosTableroHijos][posicionAletoria1];
+                            auxPos2=tableroHijos[auxiliarPosTableroHijos][posicionAletoria2];
+                            //imprimirArreglo(tableroHijos,"estaba asi");
+                            tableroHijos[auxiliarPosTableroHijos][posicionAletoria1]=auxPos2;
+                            tableroHijos[auxiliarPosTableroHijos][posicionAletoria2]=auxPos1;
+                            //imprimirArreglo(tableroHijos,"quedo asa");
+                        }
+                        
                         auxiliarPosTableroHijos=auxiliarPosTableroHijos+1;
                         //imprimirArreglo(auxiliar, "hijo 1");
 
                         if(auxiliarPosTableroHijos<poblacion){
                             //imprimirArreglo(tableroHijos, "tablero de hijos");
                             for(int j=randomNumber; j<tamanoTablero; j++){
-                                auxiliar2[j]=tableros[seleccion1][j];
                                 tableroHijos[auxiliarPosTableroHijos][j]=tableros[seleccion1][j];
                             }
                             for(int k=0; k<randomNumber; k++){
-                                auxiliar2[k]=tableros[seleccion2][k];
                                 tableroHijos[auxiliarPosTableroHijos][k]=tableros[seleccion2][k];
                             }
+
+                            aletorioMutacion = aleatorio.nextDouble();
+                            if(aletorioMutacion<=probabilidadMutacion){
+                            posicionAletoria1 = aleatorio.nextInt(tamanoTablero);    
+                            do{
+                                posicionAletoria2=aleatorio.nextInt(tamanoTablero);  
+                            }while(posicionAletoria1==posicionAletoria2);
+                            System.out.println("Hubo una mutacion entre la posicion: "+posicionAletoria1+" y: "+posicionAletoria2);
+                            auxPos1=tableroHijos[auxiliarPosTableroHijos][posicionAletoria1];
+                            auxPos2=tableroHijos[auxiliarPosTableroHijos][posicionAletoria2];
+                            //imprimirArreglo(tableroHijos,"estaba asi");
+                            tableroHijos[auxiliarPosTableroHijos][posicionAletoria1]=auxPos2;
+                            tableroHijos[auxiliarPosTableroHijos][posicionAletoria2]=auxPos1;
+                            //imprimirArreglo(tableroHijos,"quedo asa");
+                        }
+
+
                             auxiliarPosTableroHijos=auxiliarPosTableroHijos+1;
                             //imprimirArreglo(auxiliar2, "hijo 2");
                         }
