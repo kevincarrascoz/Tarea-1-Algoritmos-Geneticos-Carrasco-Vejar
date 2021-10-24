@@ -1,1 +1,1 @@
-# Tarea-1-Algoritmos-Geneticos-Carrasco-Vejar
+# Problema de las N reinas con algoritmos genéticos
