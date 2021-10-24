@@ -21,6 +21,7 @@ public class reinas{
         double probabilidadCruza = Double.parseDouble(args[3]);
         double probabilidadMutacion = Double.parseDouble(args[4]);
         Integer iteraciones = Integer.parseInt(args[5]);
+        boolean tableroIdeal = false;
         
         //set semilla
         aleatorio.setSeed(semilla);
@@ -112,7 +113,7 @@ public class reinas{
             for(int i = 0; i<arrayfitness.length; i++){
                 if(arrayfitnessInv[i]==fitnessmax){
                     System.out.println("El tablero sin colisiones fue encontrado en la iteracion: "+iteracion+", el tablero es: ");
-                    iteracion=iteraciones;
+                    tableroIdeal = true;
                     for(int j=0; j<tamanoTablero;j++){
                         System.out.print(tableros[i][j]+"\t");
                     }
@@ -182,7 +183,8 @@ public class reinas{
                 //cruza
                 //numero aleatorio entre 0 y n
                 
-
+                int auxHijo1[] = new int[tamanoTablero];
+                int auxHijo2[] = new int[tamanoTablero];
                 //System.out.println("posicion: "+auxiliarPosTableroHijos);
                 double aleatorioCruza = aleatorio.nextDouble();
                 //System.out.println("aleatorio cruza: "+aleatorioCruza+"prob cruza: "+probabilidadCruza);
@@ -192,9 +194,11 @@ public class reinas{
 
                     
                         for(int j=0; j<randomNumber; j++){
+                            auxHijo1[j]=tableros[seleccion1][j];
                             tableroHijos[auxiliarPosTableroHijos][j]=tableros[seleccion1][j];
                         }
                         for(int k=randomNumber; k<tamanoTablero; k++){
+                            auxHijo1[k]=tableros[seleccion2][k];
                             tableroHijos[auxiliarPosTableroHijos][k]=tableros[seleccion2][k];
                         }
 
@@ -216,6 +220,9 @@ public class reinas{
                             tableroHijos[auxiliarPosTableroHijos][posicionAletoria2]=auxPos1;
                             //imprimirArreglo(tableroHijos,"quedo asa");
                         }
+                        imprimirArreglo(auxHijo1, "hijo sin arreglo");
+                         arregloArray2(auxHijo1);
+                         
                         
                         auxiliarPosTableroHijos=auxiliarPosTableroHijos+1;
                         //imprimirArreglo(auxiliar, "hijo 1");
@@ -249,20 +256,25 @@ public class reinas{
                             //imprimirArreglo(auxiliar2, "hijo 2");
                         }
 
-                        //System.out.println("posicion: "+auxiliarPosTableroHijos);
+                        
                         
                 }
             }while(auxiliarPosTableroHijos<poblacion);   
             //imprimirArreglo(tableroHijos, "tablero de hijos");
             tableros=tableroHijos;
             iteracion=iteracion+1;
-        }while(iteracion<iteraciones);
+        }while((iteracion<iteraciones) && (tableroIdeal==false));
 
-         int a[] = {1,2,3,3,5,6,7,8, 5, 2, 4, 8};
-         imprimirArreglo(a, "arreglo con numero repetidos");
-         arregloArray2(a);
+        if(tableroIdeal==false){
+            System.out.println("No se ha encontrado un tablero en el que no existan colisiones de reinas");
+        }
+
+         
         
     }
+
+
+
 
 
 
@@ -298,6 +310,10 @@ public class reinas{
          
 
     }
+
+
+
+
     
    /* 
     Funcion que entrega las posiciones a cambiar
@@ -328,6 +344,11 @@ public class reinas{
         imprimirArreglo(aux, "posiciones a cambiar");
         funcionCorreccion(array, nFaltante, aux);
     }
+
+
+
+
+
 
     /*
     Funcion que realiza la correccion de un hijo
