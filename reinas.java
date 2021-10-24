@@ -226,20 +226,11 @@ public class reinas{
             tableros=tableroHijos;
             iteracion=iteracion+1;
         }while(iteracion<iteraciones);
-        
-            
-        
-
 
         
     }
 
     
-
-
-
-
-
 
 
 
