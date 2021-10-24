@@ -258,11 +258,97 @@ public class reinas{
             iteracion=iteracion+1;
         }while(iteracion<iteraciones);
 
+         int a[] = {1,2,3,3,5,6,7,8, 5, 2, 4, 8};
+         imprimirArreglo(a, "arreglo con numero repetidos");
+         arregloArray2(a);
         
     }
 
-    
 
+
+    /* 
+    Funcion de que entrega los numeros faltantes del hijo
+    */
+
+    public static void arregloArray2(int[] array){
+        int[] numeroFaltante = new int[array.length];
+        int aux=0;
+        for(int k=0; k<array.length;k++){
+             numeroFaltante[k]=0;
+         }
+        for(int i=1; i<=array.length; i++){
+            int count = 0;
+            for(int j=0; j<array.length; j++){
+                if(array[j]==i){
+                    count++;
+                }
+            }
+            if(count==0){
+                numeroFaltante[aux]=i;
+                aux++;
+            }
+        }
+       
+        int nFaltante[] = new int[aux];
+        for(int i=0; i<nFaltante.length;i++){
+            nFaltante[i]=numeroFaltante[i];
+        }
+         imprimirArreglo(nFaltante, "numeros faltantes");
+         arregloArray(array, nFaltante, aux);
+         
+
+    }
+    
+   /* 
+    Funcion que entrega las posiciones a cambiar
+    */
+    public static void arregloArray(int[] array, int [] nFaltante, int tamano){
+         int[] aux = new int[tamano];
+         for(int k=0; k<aux.length;k++){
+             aux[k]=0;
+         }
+         int auxNum=0;
+        for(int i=0; i<array.length; i++){
+            for(int j= i+1; j<array.length; j++){
+                if(array[i]==array[j]){
+                        int count=0;
+                        for(int k=0; k<aux.length; k++){
+                            if(j==aux[k]){
+                                count++;
+                            }
+                        }
+                        if(count==0){
+                        aux[auxNum]=j;
+                        auxNum++;
+                        }
+                        
+                }
+            }
+        }
+        imprimirArreglo(aux, "posiciones a cambiar");
+        funcionCorreccion(array, nFaltante, aux);
+    }
+
+    /*
+    Funcion que realiza la correccion de un hijo
+    */
+    public static void funcionCorreccion(int[] array, int [] nFaltante, int[] posicionesCambiar){
+        int numAuxiliar=0;
+            numAuxiliar=0;
+        do{
+        for(int i=0; i<array.length;i++){
+            if(i==posicionesCambiar[numAuxiliar]){
+                array[i]=nFaltante[numAuxiliar];
+                numAuxiliar++;
+            }
+        }
+        }while(numAuxiliar!=nFaltante.length);
+        System.out.println(numAuxiliar);
+        imprimirArreglo(array, "arreglo correjido");
+
+    }
+
+  
 
 
     /* 
