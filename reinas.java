@@ -31,14 +31,14 @@ public class reinas{
         
         
 
-        
+        int iteracion = 0;
 
         //calculo del fitness maximo (cantidad maxima de colisiones)
         int fitnessmax=0;
         for(int j=(tamanoTablero-1); j>0; j--){
             fitnessmax=fitnessmax+j;
         }
-        System.out.println("el fitness max es: "+fitnessmax);
+        //System.out.println("el fitness max es: "+fitnessmax);
 
         //inicializacion tableros
         for(int i=0; i<poblacion; i++){
@@ -61,148 +61,172 @@ public class reinas{
             }
         }
 
-        //muestra tableros desordenados
-        imprimirArreglo(tableros, "Tableros desordenados");
-           
-        
-        //calculo del fitness por tablero  
-          for(int i=0; i<poblacion; i++){
-            int fitness = 0;
-            int[] auxdiagonal = new int[tamanoTablero];
-            int[] auxinversa = new int[tamanoTablero];
-        
-            for(int j=0; j<tamanoTablero; j++){
-              auxdiagonal[j] = ((j+1) - tableros[i][j]);
-              auxinversa[j] = Math.abs((j+1) +tableros[i][j]);  
-            }
+        do{
+            //muestra tableros desordenados
+            //imprimirArreglo(tableros, "Tableros desordenados");
             
-
-            for(int z=0; z<tamanoTablero; z++){
-                for(int x=0; x<tamanoTablero; x++){
-                    if(z!=x){
-                        if(auxdiagonal[z]==auxdiagonal[x]){
-                            fitness=fitness+1;
-                        }    
-                        if(auxinversa[z]==auxinversa[x]){
-                            fitness=fitness+1;
-                        } 
-                    }
+            
+            //calculo del fitness por tablero  
+            for(int i=0; i<poblacion; i++){
+                int fitness = 0;
+                int[] auxdiagonal = new int[tamanoTablero];
+                int[] auxinversa = new int[tamanoTablero];
+            
+                for(int j=0; j<tamanoTablero; j++){
+                auxdiagonal[j] = ((j+1) - tableros[i][j]);
+                auxinversa[j] = Math.abs((j+1) +tableros[i][j]);  
                 }
                 
+
+                for(int z=0; z<tamanoTablero; z++){
+                    for(int x=0; x<tamanoTablero; x++){
+                        if(z!=x){
+                            if(auxdiagonal[z]==auxdiagonal[x]){
+                                fitness=fitness+1;
+                            }    
+                            if(auxinversa[z]==auxinversa[x]){
+                                fitness=fitness+1;
+                            } 
+                        }
+                    }
+                    
+                }
+                //guardar el fitness de cada tablero en un arreglo
+                arrayfitness[i]=fitness/2;
+                //System.out.println("fitness tablero " +(i+1)+": "+fitness/2 +"\n");
             }
-            //guardar el fitness de cada tablero en un arreglo
-            arrayfitness[i]=fitness/2;
-            //System.out.println("fitness tablero " +(i+1)+": "+fitness/2 +"\n");
-        }
-        //imprimirArreglo(arrayfitness, "fitness normal");
+
+            
+            //imprimirArreglo(arrayfitness, "fitness normal");
 
 
-        //inversion del fitness para poder obtener la proporcion de cada tablero
-        for(int i=0; i<arrayfitnessInv.length; i++){
-            arrayfitnessInv[i]=fitnessmax-arrayfitness[i];
-            if(arrayfitnessInv[i]==0){
-                arrayfitnessInv[i]=1;
+            //inversion del fitness para poder obtener la proporcion de cada tablero
+            for(int i=0; i<arrayfitnessInv.length; i++){
+                arrayfitnessInv[i]=fitnessmax-arrayfitness[i];
+                if(arrayfitnessInv[i]==0){
+                    arrayfitnessInv[i]=1;
+                }
             }
-        }
-        imprimirArreglo(arrayfitnessInv, "fitness invertido");
-        //calculo de la suma de los fitness
-        int sumaProporcion=0;
-        for(int i=0; i<arrayfitnessInv.length; i++){
-            sumaProporcion=sumaProporcion+arrayfitnessInv[i];
-        }
-        //System.out.println("Suma: "+sumaProporcion);
-        
-        //calculo proporcion de cada fitness
-        double[] arrayProporciones = new double[poblacion];
-        for(int i=0; i<arrayfitnessInv.length; i++){
-            arrayProporciones[i]=Double.valueOf(arrayfitnessInv[i])/Double.valueOf(sumaProporcion);
-        }
-        //imprimirArreglo(arrayProporciones, "proporciones");
+            //imprimirArreglo(arrayfitnessInv, "fitness invertido");
 
-
-        //calculo valor para ruleta
-        double[] valorRuleta = new double[poblacion];
-        for(int i=0; i<arrayfitnessInv.length; i++){
-            if(i==0){
-                valorRuleta[i]=arrayProporciones[i];    
-            }else{
-                valorRuleta[i]=valorRuleta[i-1]+arrayProporciones[i];
-            }
-        }
-        //imprimirArreglo(valorRuleta, "ruleta");
-
-        
-
-        //asignar la ruleta a un resultado
-        int seleccion1 = 0;
-        int seleccion2 = 0;
-        //numero aleatorio entre 0 y 1
-        double numeroEntre0y1a = aleatorio.nextDouble();
-        //System.out.println("Numero entre 0 y 1: "+numeroEntre0y1a);
-
-        for(int i = 0; i<valorRuleta.length; i++){
-            if(numeroEntre0y1a<=valorRuleta[i]){
-                seleccion1=i;
-                break;
-            }
-        }
-
-        int tableroHijos[][] = new int[poblacion][tamanoTablero];
-        int auxiliarPosTableroHijos = 0;
-
-        //numero aleatorio entre 0 y 1
-        do{
-            double numeroEntre0y1b = aleatorio.nextDouble();
-            //System.out.println("Numero entre 0 y 1: "+numeroEntre0y1b);
-            for(int i = 0; i<valorRuleta.length; i++){
-                if(numeroEntre0y1b<=valorRuleta[i]){
-                    seleccion2=i;
+            for(int i = 0; i<arrayfitness.length; i++){
+                if(arrayfitnessInv[i]==fitnessmax){
+                    System.out.println("El tablero sin colisiones fue encontrado en la iteracion: "+iteracion+", el tablero es: ");
+                    iteracion=iteraciones;
+                    for(int j=0; j<tamanoTablero;j++){
+                        System.out.print(tableros[i][j]+"\t");
+                    }
+                    System.out.println("");
                     break;
                 }
             }
-        }while(seleccion1==seleccion2);
-        System.out.println("Seleccion 1: "+seleccion1+"\nSeleccion 2: "+seleccion2);
 
-        //cruza
-        //numero aleatorio entre 0 y n
+            //calculo de la suma de los fitness
+            int sumaProporcion=0;
+            for(int i=0; i<arrayfitnessInv.length; i++){
+                sumaProporcion=sumaProporcion+arrayfitnessInv[i];
+            }
+            //System.out.println("Suma: "+sumaProporcion);
+            
+            //calculo proporcion de cada fitness
+            double[] arrayProporciones = new double[poblacion];
+            for(int i=0; i<arrayfitnessInv.length; i++){
+                arrayProporciones[i]=Double.valueOf(arrayfitnessInv[i])/Double.valueOf(sumaProporcion);
+            }
+            //imprimirArreglo(arrayProporciones, "proporciones");
+
+
+            //calculo valor para ruleta
+            double[] valorRuleta = new double[poblacion];
+            for(int i=0; i<arrayfitnessInv.length; i++){
+                if(i==0){
+                    valorRuleta[i]=arrayProporciones[i];    
+                }else{
+                    valorRuleta[i]=valorRuleta[i-1]+arrayProporciones[i];
+                }
+            }
+            //imprimirArreglo(valorRuleta, "ruleta");
+
+            int tableroHijos[][] = new int[poblacion][tamanoTablero];
+            int auxiliarPosTableroHijos = 0;
+            do{
+                //asignar la ruleta a un resultado
+                int seleccion1 = 0;
+                int seleccion2 = 0;
+                //numero aleatorio entre 0 y 1
+                double numeroEntre0y1a = aleatorio.nextDouble();
+                //System.out.println("Numero entre 0 y 1: "+numeroEntre0y1a);
+
+                for(int i = 0; i<valorRuleta.length; i++){
+                    if(numeroEntre0y1a<=valorRuleta[i]){
+                        seleccion1=i;
+                        break;
+                    }
+                }
+
+                
+
+                //numero aleatorio entre 0 y 1
+                do{
+                    double numeroEntre0y1b = aleatorio.nextDouble();
+                    //System.out.println("Numero entre 0 y 1: "+numeroEntre0y1b);
+                    for(int i = 0; i<valorRuleta.length; i++){
+                        if(numeroEntre0y1b<=valorRuleta[i]){
+                            seleccion2=i;
+                            break;
+                        }
+                    }
+                }while(seleccion1==seleccion2);
+                //System.out.println("Seleccion 1: "+seleccion1+"\nSeleccion 2: "+seleccion2);
+
+                //cruza
+                //numero aleatorio entre 0 y n
+                
+
+                //System.out.println("posicion: "+auxiliarPosTableroHijos);
+                double aleatorioCruza = aleatorio.nextDouble();
+                //System.out.println("aleatorio cruza: "+aleatorioCruza+"prob cruza: "+probabilidadCruza);
+                if(aleatorioCruza<=probabilidadCruza){
+                    int randomNumber = aleatorio.nextInt(tamanoTablero+1);
+                    //System.out.println("numero aleatorio: "+randomNumber);
+
+                    
+                        int auxiliar[] = new int[tamanoTablero];
+                        int auxiliar2[] = new int[tamanoTablero];
+                        for(int j=0; j<randomNumber; j++){
+                            auxiliar[j]=tableros[seleccion1][j];
+                            tableroHijos[auxiliarPosTableroHijos][j]=tableros[seleccion1][j];
+                        }
+                        for(int k=randomNumber; k<tamanoTablero; k++){
+                            auxiliar[k]=tableros[seleccion2][k];
+                            tableroHijos[auxiliarPosTableroHijos][k]=tableros[seleccion2][k];
+                        }
+                        auxiliarPosTableroHijos=auxiliarPosTableroHijos+1;
+                        //imprimirArreglo(auxiliar, "hijo 1");
+
+                        if(auxiliarPosTableroHijos<poblacion){
+                            //imprimirArreglo(tableroHijos, "tablero de hijos");
+                            for(int j=randomNumber; j<tamanoTablero; j++){
+                                auxiliar2[j]=tableros[seleccion1][j];
+                                tableroHijos[auxiliarPosTableroHijos][j]=tableros[seleccion1][j];
+                            }
+                            for(int k=0; k<randomNumber; k++){
+                                auxiliar2[k]=tableros[seleccion2][k];
+                                tableroHijos[auxiliarPosTableroHijos][k]=tableros[seleccion2][k];
+                            }
+                            auxiliarPosTableroHijos=auxiliarPosTableroHijos+1;
+                            //imprimirArreglo(auxiliar2, "hijo 2");
+                        }
+
+                        //System.out.println("posicion: "+auxiliarPosTableroHijos);
+                        
+                }
+            }while(auxiliarPosTableroHijos<poblacion);   
+            //imprimirArreglo(tableroHijos, "tablero de hijos");
+            tableros=tableroHijos;
+            iteracion=iteracion+1;
+        }while(iteracion<iteraciones);
         
-
-        
-        double aleatorioCruza = aleatorio.nextDouble();
-        System.out.println("aleatorio cruza: "+aleatorioCruza+"prob cruza: "+probabilidadCruza);
-        if(aleatorioCruza<=probabilidadCruza){
-            int randomNumber = aleatorio.nextInt(tamanoTablero+1);
-            System.out.println("numero aleatorio: "+randomNumber);
-
-            //for(int i = 0; i<(poblacion/2); i++){
-                int auxiliar[] = new int[tamanoTablero];
-                int auxiliar2[] = new int[tamanoTablero];
-                for(int j=0; j<randomNumber; j++){
-                    auxiliar[j]=tableros[seleccion1][j];
-                    tableroHijos[auxiliarPosTableroHijos][j]=tableros[seleccion1][j];
-                }
-                for(int k=randomNumber; k<tamanoTablero; k++){
-                    auxiliar[k]=tableros[seleccion2][k];
-                    tableroHijos[auxiliarPosTableroHijos][k]=tableros[seleccion2][k];
-                }
-                auxiliarPosTableroHijos=auxiliarPosTableroHijos+1;
-
-                imprimirArreglo(auxiliar, "hijo 1");
-                //imprimirArreglo(tableroHijos, "tablero de hijos");
-
-                for(int j=randomNumber; j<tamanoTablero; j++){
-                    auxiliar2[j]=tableros[seleccion1][j];
-                    tableroHijos[auxiliarPosTableroHijos][j]=tableros[seleccion1][j];
-                }
-                for(int k=0; k<randomNumber; k++){
-                    auxiliar2[k]=tableros[seleccion2][k];
-                    tableroHijos[auxiliarPosTableroHijos][k]=tableros[seleccion2][k];
-                }
-                auxiliarPosTableroHijos=auxiliarPosTableroHijos+1;
-                imprimirArreglo(auxiliar2, "hijo 2");
-                imprimirArreglo(tableroHijos, "tablero de hijos");
-        }
-        //}
             
         
 
