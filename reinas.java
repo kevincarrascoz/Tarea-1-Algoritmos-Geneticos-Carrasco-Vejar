@@ -258,7 +258,7 @@ public class reinas{
             iteracion=iteracion+1;
         }while(iteracion<iteraciones);
 
-         int a[] = {1,2,3,3,5,6,7,8, 5, 2, 4, 8};
+         int a[] = {1,2,3,4,5,6,7,8, 9, 10, 11, 12};
          imprimirArreglo(a, "arreglo con numero repetidos");
          arregloArray2(a);
         
@@ -293,8 +293,19 @@ public class reinas{
         for(int i=0; i<nFaltante.length;i++){
             nFaltante[i]=numeroFaltante[i];
         }
-         imprimirArreglo(nFaltante, "numeros faltantes");
-         arregloArray(array, nFaltante, aux);
+         int count2=0;
+         for(int i=0; i<nFaltante.length;i++){
+            if(nFaltante[i]!=0){
+                count2++;
+            }
+        }
+        if(count2!=0){
+            imprimirArreglo(nFaltante, "numeros faltantes");
+            arregloArray(array, nFaltante, aux);
+        }else{
+            System.out.println("no hay numeros repetidos");
+            imprimirArreglo(array, "return array inicial ya que no tiene repetidos");
+        }
          
 
     }
@@ -343,7 +354,6 @@ public class reinas{
             }
         }
         }while(numAuxiliar!=nFaltante.length);
-        System.out.println(numAuxiliar);
         imprimirArreglo(array, "arreglo correjido");
 
     }
