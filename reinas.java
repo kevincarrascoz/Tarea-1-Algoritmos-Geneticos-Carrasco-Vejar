@@ -30,6 +30,10 @@ public class reinas{
         double probabilidadMutacion = Double.parseDouble(args[4]);
         Integer iteraciones = Integer.parseInt(args[5]);
         boolean tableroIdeal = false;
+        int maxActual=0;
+        int posMaxActual=0;
+        int iteracionActual=0;
+        
         
         //set semilla
         aleatorio.setSeed(semilla);
@@ -47,6 +51,7 @@ public class reinas{
         for(int j=(tamanoTablero-1); j>0; j--){
             fitnessmax=fitnessmax+j;
         }
+        fitnessmax=fitnessmax+1;
         //System.out.println("el fitness max es: "+fitnessmax);
 
         //inicializacion tableros
@@ -63,7 +68,7 @@ public class reinas{
         //desordena los tableros
         for(int i=0; i<poblacion; i++){
             for(int j=0; j<tamanoTablero; j++){
-                int posAleatoria = r.nextInt(tamanoTablero);
+                int posAleatoria = aleatorio.nextInt(tamanoTablero);
                 int temp = tableros[i][j];
                 tableros[i][j] = tableros[i][posAleatoria];
                 tableros[i][posAleatoria] = temp;
@@ -112,9 +117,7 @@ public class reinas{
             //inversion del fitness para poder obtener la proporcion de cada tablero
             for(int i=0; i<arrayfitnessInv.length; i++){
                 arrayfitnessInv[i]=fitnessmax-arrayfitness[i];
-                if(arrayfitnessInv[i]==0){
-                    arrayfitnessInv[i]=1;
-                }
+                
             }
             //imprimirArreglo(arrayfitnessInv, "fitness invertido");
 
@@ -126,9 +129,24 @@ public class reinas{
                         System.out.print(tableros[i][j]+"\t");
                     }
                     System.out.println("");
+                    System.out.println("El fitness del tablero es: "+arrayfitnessInv[i]);
                     break;
                 }
             }
+            if(tableroIdeal==false){
+                for (int i = 0; i < arrayfitnessInv.length; i++) {
+              
+                    if(arrayfitnessInv[i]>maxActual){
+                    
+                        maxActual=arrayfitnessInv[i];
+                        posMaxActual=i;
+                        iteracionActual=iteracion;
+                       
+                        
+                    }
+                }
+            }
+
 
             //calculo de la suma de los fitness
             int sumaProporcion=0;
@@ -290,11 +308,26 @@ public class reinas{
 
         if(tableroIdeal==false){
             System.out.println("No se ha encontrado un tablero en el que no existan colisiones de reinas");
+            System.out.println("El mejor tablero encontrado se encontro en la iteracion: "+iteracionActual+" ,el tablero es:");
+            for(int j=0; j<tamanoTablero;j++){
+                System.out.print(tableros[posMaxActual][j]+"\t");
+            }
+            System.out.println("");
+            System.out.println("El fitness del tablero es: "+arrayfitnessInv[posMaxActual]);
         }
 
          
         
     }
+
+
+
+
+
+
+
+
+
 
 
 
