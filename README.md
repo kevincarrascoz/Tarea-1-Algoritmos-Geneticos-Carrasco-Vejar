@@ -12,7 +12,17 @@ Semilla: Este parametro representa el valor de semilla del programa, a partir de
 
 Probabilidad de cruza: Este parametro representa la probabilidad de cruza entre los cromosomas, se debe ingresar un valor double entre 0 y 1 usando "." como punto flotante que representara el porcentaje de probabilidad de cruza. Ejemplo: 0.9
 
-Probabilidad de mutación: Este parametro representa la probabilidad de mutacion de un cromosoma, se debe ingresar un valor double entre 0 y 1 u sando "." como punto flotante que representara el porcentaje de probabilidad de mutacion. Ejemplo: 0.02
+Probabilidad de mutación: Este parametro representa la probabilidad de mutación de un cromosoma, se debe ingresar un valor double entre 0 y 1 usando "." como punto flotante que representara el porcentaje de probabilidad de mutación. Ejemplo: 0.02
 
-Cantidad de iteraciones: ESte parametro representa la cantidad de iteraciones (generaciones) que tendra el sistema, se debe ingresar un valor entero mayor o igual 1.
+Cantidad de iteraciones: Este parametro representa la cantidad de iteraciones (generaciones) que tendra el sistema, se debe ingresar un valor entero mayor o igual 1.
+
+Instrucciones para correr el programa en Linux.
+
+> $ git clone https://github.com/kevincarrascoz/Tarea-1-Algoritmos-Geneticos-Carrasco-Vejar.git
+
+> $ cd Tarea-1-Algoritmos-Geneticos-Carrasco-Vejar
+
+> $ javac reinas.java
+
+> $ java reinas 'tamaño del tablero' 'tamaño de la población' 'semilla' 'probabilidad de cruza' 'probabilidad de mutacion' 'cantidad de iteraciones'
 
