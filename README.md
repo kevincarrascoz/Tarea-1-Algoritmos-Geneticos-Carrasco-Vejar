@@ -1,6 +1,9 @@
 # Problema de las N reinas con algoritmos genéticos
+Alejandro Vejar Henriquez
+Kevin Carrasco Zenteno
 
 Aca se presenta la implementación en Java de la solución para el problema de las N reinas mediante la implementación del algoritmo genético.
+El problema consisten en poner n-reinas en un tablero tradicional de ajedrez de forma tal que ninguna reína amenace a cualquier otra reína.
 
 Parametros utilizados por el programa.
 
