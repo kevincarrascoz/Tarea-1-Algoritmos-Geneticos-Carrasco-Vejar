@@ -8,6 +8,14 @@ public class reinas{
 			System.out.println("Ingresar 6 argumentos, el tamano del tablero,el tamano de la poblacion, la semilla, la prob de cruza,la prob de mutacion y la cantidad de iteraciones respectivamente");
 			System.exit(-1);
 		}
+        if(args[0].equals("0") || args[0].equals("1")|| args[0].equals("2") ){
+            System.out.println("El tamano del tablero debe ser mayor a 2");
+            System.exit(-1);
+        }
+        if(args[1].equals("0") || args[1].equals("1") ){
+            System.out.println("El tamano de la poblacion debe ser mayor a 1");
+            System.exit(-1);
+        }
 
 
         int tamanoTablero = Integer.parseInt(args[0]);
@@ -21,6 +29,7 @@ public class reinas{
         double probabilidadCruza = Double.parseDouble(args[3]);
         double probabilidadMutacion = Double.parseDouble(args[4]);
         Integer iteraciones = Integer.parseInt(args[5]);
+        boolean tableroIdeal = false;
         
         //set semilla
         aleatorio.setSeed(semilla);
@@ -112,7 +121,7 @@ public class reinas{
             for(int i = 0; i<arrayfitness.length; i++){
                 if(arrayfitnessInv[i]==fitnessmax){
                     System.out.println("El tablero sin colisiones fue encontrado en la iteracion: "+iteracion+", el tablero es: ");
-                    iteracion=iteraciones;
+                    tableroIdeal = true;
                     for(int j=0; j<tamanoTablero;j++){
                         System.out.print(tableros[i][j]+"\t");
                     }
@@ -182,7 +191,8 @@ public class reinas{
                 //cruza
                 //numero aleatorio entre 0 y n
                 
-
+                int auxHijo1[] = new int[tamanoTablero];
+                int auxHijo2[] = new int[tamanoTablero];
                 //System.out.println("posicion: "+auxiliarPosTableroHijos);
                 double aleatorioCruza = aleatorio.nextDouble();
                 //System.out.println("aleatorio cruza: "+aleatorioCruza+"prob cruza: "+probabilidadCruza);
@@ -192,11 +202,21 @@ public class reinas{
 
                     
                         for(int j=0; j<randomNumber; j++){
-                            tableroHijos[auxiliarPosTableroHijos][j]=tableros[seleccion1][j];
+                            auxHijo1[j]=tableros[seleccion1][j];
+                            //tableroHijos[auxiliarPosTableroHijos][j]=tableros[seleccion1][j];
                         }
                         for(int k=randomNumber; k<tamanoTablero; k++){
-                            tableroHijos[auxiliarPosTableroHijos][k]=tableros[seleccion2][k];
+                            auxHijo1[k]=tableros[seleccion2][k];
+                            //tableroHijos[auxiliarPosTableroHijos][k]=tableros[seleccion2][k];
                         }
+
+                        
+                        //imprimirArreglo(auxHijo1, "hijo sin arreglo");
+                        auxHijo1=arregloArray2(auxHijo1);
+                        for(int i =0; i<tamanoTablero; i++){
+                            tableroHijos[auxiliarPosTableroHijos][i]=auxHijo1[i];
+                        }
+                        //imprimirArreglo(tableroHijos, "tablero hijo arreglado");
 
                         double aletorioMutacion = aleatorio.nextDouble();
                         int posicionAletoria2;
@@ -208,7 +228,7 @@ public class reinas{
                             do{
                                 posicionAletoria2=aleatorio.nextInt(tamanoTablero);  
                             }while(posicionAletoria1==posicionAletoria2);
-                            System.out.println("Hubo una mutacion entre la posicion: "+posicionAletoria1+" y: "+posicionAletoria2);
+                            //System.out.println("Hubo una mutacion entre la posicion: "+posicionAletoria1+" y: "+posicionAletoria2);
                             auxPos1=tableroHijos[auxiliarPosTableroHijos][posicionAletoria1];
                             auxPos2=tableroHijos[auxiliarPosTableroHijos][posicionAletoria2];
                             //imprimirArreglo(tableroHijos,"estaba asi");
@@ -216,6 +236,7 @@ public class reinas{
                             tableroHijos[auxiliarPosTableroHijos][posicionAletoria2]=auxPos1;
                             //imprimirArreglo(tableroHijos,"quedo asa");
                         }
+                         
                         
                         auxiliarPosTableroHijos=auxiliarPosTableroHijos+1;
                         //imprimirArreglo(auxiliar, "hijo 1");
@@ -223,11 +244,20 @@ public class reinas{
                         if(auxiliarPosTableroHijos<poblacion){
                             //imprimirArreglo(tableroHijos, "tablero de hijos");
                             for(int j=randomNumber; j<tamanoTablero; j++){
-                                tableroHijos[auxiliarPosTableroHijos][j]=tableros[seleccion1][j];
+                                auxHijo2[j]=tableros[seleccion1][j];
+                                //tableroHijos[auxiliarPosTableroHijos][j]=tableros[seleccion1][j];
                             }
                             for(int k=0; k<randomNumber; k++){
-                                tableroHijos[auxiliarPosTableroHijos][k]=tableros[seleccion2][k];
+                                auxHijo2[k]=tableros[seleccion2][k];
+                                //tableroHijos[auxiliarPosTableroHijos][k]=tableros[seleccion2][k];
                             }
+
+                            //imprimirArreglo(auxHijo2, "hijo sin arreglo");
+                            auxHijo2=arregloArray2(auxHijo2);
+                            for(int i =0; i<tamanoTablero; i++){
+                                tableroHijos[auxiliarPosTableroHijos][i]=auxHijo2[i];
+                            }
+                            //imprimirArreglo(tableroHijos, "tablero hijo arreglado");
 
                             aletorioMutacion = aleatorio.nextDouble();
                             if(aletorioMutacion<=probabilidadMutacion){
@@ -235,7 +265,7 @@ public class reinas{
                             do{
                                 posicionAletoria2=aleatorio.nextInt(tamanoTablero);  
                             }while(posicionAletoria1==posicionAletoria2);
-                            System.out.println("Hubo una mutacion entre la posicion: "+posicionAletoria1+" y: "+posicionAletoria2);
+                            //System.out.println("Hubo una mutacion entre la posicion: "+posicionAletoria1+" y: "+posicionAletoria2);
                             auxPos1=tableroHijos[auxiliarPosTableroHijos][posicionAletoria1];
                             auxPos2=tableroHijos[auxiliarPosTableroHijos][posicionAletoria2];
                             //imprimirArreglo(tableroHijos,"estaba asi");
@@ -249,20 +279,25 @@ public class reinas{
                             //imprimirArreglo(auxiliar2, "hijo 2");
                         }
 
-                        //System.out.println("posicion: "+auxiliarPosTableroHijos);
+                        
                         
                 }
             }while(auxiliarPosTableroHijos<poblacion);   
             //imprimirArreglo(tableroHijos, "tablero de hijos");
             tableros=tableroHijos;
             iteracion=iteracion+1;
-        }while(iteracion<iteraciones);
+        }while((iteracion<iteraciones) && (tableroIdeal==false));
 
-         int a[] = {1,2,3,4,5,6,7,8, 9, 10, 11, 12};
-         imprimirArreglo(a, "arreglo con numero repetidos");
-         arregloArray2(a);
+        if(tableroIdeal==false){
+            System.out.println("No se ha encontrado un tablero en el que no existan colisiones de reinas");
+        }
+
+         
         
     }
+
+
+
 
 
 
@@ -270,7 +305,7 @@ public class reinas{
     Funcion de que entrega los numeros faltantes del hijo
     */
 
-    public static void arregloArray2(int[] array){
+    public static int[] arregloArray2(int[] array){
         int[] numeroFaltante = new int[array.length];
         int aux=0;
         for(int k=0; k<array.length;k++){
@@ -300,20 +335,24 @@ public class reinas{
             }
         }
         if(count2!=0){
-            imprimirArreglo(nFaltante, "numeros faltantes");
-            arregloArray(array, nFaltante, aux);
+            //imprimirArreglo(nFaltante, "numeros faltantes");
+            return arregloArray(array, nFaltante, aux);
         }else{
-            System.out.println("no hay numeros repetidos");
-            imprimirArreglo(array, "return array inicial ya que no tiene repetidos");
+            return array;
         }
+        
          
 
     }
+
+
+
+
     
    /* 
     Funcion que entrega las posiciones a cambiar
     */
-    public static void arregloArray(int[] array, int [] nFaltante, int tamano){
+    public static int[] arregloArray(int[] array, int [] nFaltante, int tamano){
          int[] aux = new int[tamano];
          for(int k=0; k<aux.length;k++){
              aux[k]=0;
@@ -336,26 +375,39 @@ public class reinas{
                 }
             }
         }
-        imprimirArreglo(aux, "posiciones a cambiar");
-        funcionCorreccion(array, nFaltante, aux);
+        //imprimirArreglo(aux, "posiciones a cambiar");
+        return funcionCorreccion(array, nFaltante, aux);
     }
+
+
+
+
+
 
     /*
     Funcion que realiza la correccion de un hijo
     */
-    public static void funcionCorreccion(int[] array, int [] nFaltante, int[] posicionesCambiar){
+    public static int[] funcionCorreccion(int[] array, int [] nFaltante, int[] posicionesCambiar){
         int numAuxiliar=0;
-            numAuxiliar=0;
         do{
-        for(int i=0; i<array.length;i++){
-            if(i==posicionesCambiar[numAuxiliar]){
-                array[i]=nFaltante[numAuxiliar];
-                numAuxiliar++;
+            for(int i=0; i<array.length;i++){
+                if(numAuxiliar<nFaltante.length){
+                        if(i==posicionesCambiar[numAuxiliar]){
+                        //System.out.println("entro al if con num: "+numAuxiliar);
+                        array[i]=nFaltante[numAuxiliar];
+                        //imprimirArreglo(array, "cambiando");
+                        if(numAuxiliar<nFaltante.length){
+                            numAuxiliar++;
+                            
+                        }
+                        //System.out.println("salio del if con num"+numAuxiliar);
+                        
+                    }
+                }
             }
-        }
         }while(numAuxiliar!=nFaltante.length);
-        imprimirArreglo(array, "arreglo correjido");
-
+        //imprimirArreglo(array, "arreglo correjido");
+        return array;
     }
 
   
