@@ -8,6 +8,14 @@ public class reinas{
 			System.out.println("Ingresar 6 argumentos, el tamano del tablero,el tamano de la poblacion, la semilla, la prob de cruza,la prob de mutacion y la cantidad de iteraciones respectivamente");
 			System.exit(-1);
 		}
+        if(args[0].equals("0") || args[0].equals("1")|| args[0].equals("2") ){
+            System.out.println("El tamano del tablero debe ser mayor a 2");
+            System.exit(-1);
+        }
+        if(args[1].equals("0") || args[1].equals("1") ){
+            System.out.println("El tamano de la poblacion debe ser mayor a 1");
+            System.exit(-1);
+        }
 
 
         int tamanoTablero = Integer.parseInt(args[0]);
